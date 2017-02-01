@@ -15,7 +15,7 @@
 *         *
 *        public void read()
 *        {
-*            string path = "C:\\Users\\Admin\\Desktop\\GreenEggs&Ham.txt";
+*            string path = "file.txt";
 *            char[] c = null;
 *
 *            using (StreamReader sr = new StreamReader(path))
