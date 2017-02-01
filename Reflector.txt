@@ -1,0 +1,259 @@
+﻿namespace ihatethisprogram
+{
+    /*********************************************************************************************************************
+     * Class: Contains fields and functions pertaining to creating instances of the Reflector array intended to represent
+     *        memory locations on the console screen. Creates an instance, populates it with a dummy character, assigns 
+     *        the index to 0, and fills the border with stars
+     **********************************************************************************************************************/
+    class Reflector
+    {
+        /************************************************************************
+         * Fields: int row                      Max rows for Reflector array 
+         *         int col                      Max columns for Reflector array
+         *         char[,] reflectorArray       Reflector array instantiation
+         *************************************************************************/
+        public static int row = 25;     public static int col = 80;
+
+        public char[,] reflectorArray = new char[row, col];
+
+        /****************************************
+         * Function: Used to create class array 
+         ****************************************/
+        public Reflector()
+        {
+
+        }
+
+        /********************************************************************************
+         * Function: Populates a multidimensional array of a predefined size with dashes
+         *           and then edits the array to include a star border
+         *********************************************************************************/
+        public void initref()
+        {
+            createReflector();
+            createBorder();
+        }
+
+        /****************************************************************************
+        * Function: Creates a Reflector array that mimics a command console display.
+        ****************************************************************************/
+        private void createReflector()
+        {
+            for (int i = 0; i < row; i++)
+            {
+                for (int j = 0; j < col; j++)
+                {
+                    reflectorArray[i, j] = '-';
+                }
+            }
+        }
+
+        /******************************************************************************
+        * Function: Replace all the dash tag holders in the reflector with empty space
+        ******************************************************************************/
+        public void emptySpaceFill()
+        {
+            for (int i = 0; i < row; i++)
+            {
+                for (int j = 0; j < col; j++)
+                {
+                    if (reflectorArray[i, j] == '-')
+                    {
+                        reflectorArray[i, j] = ' ';
+                    }
+                }
+            }
+        }
+        /**************************************************
+            * Function: Fills the Reflector border with stars.
+            **************************************************/
+        private void createBorder()
+        { FillStars("bottom"); FillStarsSides(); FillStarsSides("right"); FillStars(); }
+        /*****************************************************************************************
+            * Function: Fills the top side of the reflector with stars.
+            *
+            * @params: int zero         Used to get the min row value (0)
+            *          int col          Used to get the max col value (80)
+            *****************************************************************************************/
+        private void FillStars()
+        {
+            for (int i = 0; i < col; i++) { reflectorArray[0, i] = '*'; }
+            reflectorArray[0, 0] = '0';
+        }
+        /*****************************************************************************************
+            * Function: Fills the left side of the reflector with stars.
+            *
+            * @params: int row          Used to get the max row value (25)
+            *          int zero         Used to get the min col value (0)
+            *****************************************************************************************/
+        private void FillStarsSides()
+        { for (int i = 0; i < reflectorArray.GetUpperBound(0); i++) { reflectorArray[i, 0] = '*'; } }
+        /*****************************************************************************************
+            * Function: Fills the bottom side of the reflector with stars.
+            *
+            * @params: int row          Used to get the max row value (25)
+            *          int col          Used to get the max col value (80)
+            *          string word      Used to get a word that allows the function to be overloaded
+            *****************************************************************************************/
+        private void FillStars(string word)
+        {
+            for (int i = 0; i <= reflectorArray.GetUpperBound(1); i++) { reflectorArray[reflectorArray.GetUpperBound(0), i] = '*'; }
+        }
+        /*****************************************************************************************
+            * Function: Fills the right side of the reflector with stars.
+            *
+            * @params: int row          Used to get the max row value (25)
+            *          int col          Used to get the max col value (80)
+            *          string word      Used to get a word that allows the function to be overloaded
+            *****************************************************************************************/
+        private void FillStarsSides(string word)
+        {
+            for (int i = 0; i < reflectorArray.GetUpperBound(0); i++) { reflectorArray[i, reflectorArray.GetUpperBound(1)] = '*'; }
+        }
+    }
+
+    /*****************************************************************************************************
+     * Class: Contains the fields and functions related to creating tables of a predefined size filled 
+     * with a characted symbols and inserted into an array at a predefined location
+     ******************************************************************************************************/
+    class Table
+    {
+        /*****************************************************************************************
+         * Fields: char Symbol      Character symbol
+         *         char[,] table    Multidimensional Array to fill with symbols for a Reflector
+         *         int _startrow    Y position to start inserting the table in the Reflector
+         *         int _startcol    X position to start inserting the table in the Reflector
+         *         int _rowspan     Y position to indicate how long the table to be inserted is
+         *         int _colspan     X position to indicate how tall the table to inserted is
+         ******************************************************************************************/
+        public char symbol { get; set; }    public char[,] table { get; set; }
+        public int _startrow { get; set; }  public int _startcol { get; set; }
+        public int _rowspan { get; set; }   public int _colspan { get; set; }
+
+        // Error Checking: Check if table is being generated
+        /*
+        private void settable()
+        {
+            for (int i = 0; i < _rowspan; i++)
+            {
+                for (int j = 0; j < _colspan; j++)
+                { table[i, j] = '&'; }
+            }
+        }
+        */
+
+        /*************************************************************************************************
+         * Function: These are the predefined dimensions and start positions for each of the table types
+         * 
+         * @args    string type     String provided to indicate the type of table to instantiate
+         *************************************************************************************************/
+        public void setTableDimensions(string type)
+        {
+            // ugly
+            int fullcol = 80;
+
+            switch(type)
+            {
+                case "Documentation":
+                    _startrow = 1; _startcol = 1; _rowspan = 2; _colspan = 80; symbol = '+';
+                    break;
+
+                case "Title":
+                    _startrow = 3; _startcol = 1; _rowspan = 1; _colspan = 80; symbol = '&';
+                    break;
+
+                case "Purpose":
+                    _startrow = 4; _startcol = 1; _rowspan = 2; _colspan = 80; symbol = '@';
+                    break;
+
+                case "Dialog":
+                    _startrow = 7; _startcol = 1; _rowspan = 7; _colspan = 31; symbol = '^';
+                    break;
+
+                case "Input":
+                    _startrow = 7; _startcol = 31; _rowspan = 7; _colspan = 31; symbol = '#';
+                    break;
+
+                case "Utility":
+                    _startrow = 7; _startcol = 61; _rowspan = 7; _colspan = 19; symbol = '!';
+                    break;
+
+                case "Algorithm":
+                    _startrow = 15; _startcol = 1; _rowspan = 7; _colspan = 80; symbol = '/';
+                    break;
+            }
+        }
+
+        /************************************************************************************************************************************
+         * Function: Instantiate a table class instance and creates a multidimensional array with predefined dimenstions
+         *           then populates it with a predefined character symbol
+         *           
+         * @args    char s              Character symbol to insert into the created table multidimensional array
+         *          string tabletype    Creates a table based on the string provided with the dimensions provided in the predefined fields.
+         *************************************************************************************************************************************/
+        public Table(string tabletype)
+        {
+            setTableDimensions(tabletype);
+            table = new char[_rowspan, _colspan];
+            // Error Check
+            // settable();
+        }
+
+        /*************************************************************************************
+         * Function: Insert a character array at a given position in a multidimensional array
+         * 
+         * @args    char[] ch   Character array to copy
+         *          int grow    Y position in the multimensional array to begin copying to
+         **************************************************************************************/
+        public void settable(char[] ch, int grow)
+        {
+            for (int j = 0; j < _colspan; j++)
+            { table[grow, j] = ch[j]; }
+        }
+
+        /*********************************************************************************************************
+         * Function: Inserts the given table into an instantiated Reflector array object at a predefined 
+         **********************************************************************************************************/
+        public void insertTable(char[,] _tab)
+        {
+            int insertY = _startrow; int insertX = _startcol;
+
+            if (_tab[0, 0] == '0') { _tab[0, 0] = '1'; } // Changes the index from 0 (empty) to 1 (filled)
+
+            for (int y = 0; y <= table.GetUpperBound(0); y++)
+            {
+                for (int x = 0; x < table.GetUpperBound(1); x++)
+                {
+                    _tab[insertY, insertX] = table[y, x];
+                    insertX++;
+                }
+                insertX = _startcol;
+                insertY++;
+            }
+        }
+    }
+}
+
+
+/*
+         *****************************************************************************************************************************
+         * (Green Eggs & Ham)
+         * Function: Instantiate a table class instance and creates a multidimensional array with predefined dimensions
+         * 
+         * @args string tabletype   Creates a table based on the string provided with the dimensions provided in the predefined fields.
+         *****************************************************************************************************************************
+         public Table(string tabletype)
+         {
+             setTableDimensions(tabletype);
+             table = new char[_rowspan, _colspan];
+         }
+
+/*
+if (type == "Documentation")    { _startrow = 1; _startcol = 1; _rowspan = 2; _colspan = 80;  symbol = '+'; }
+if (type == "Title")            { _startrow = 3; _startcol = 1; _rowspan = 1; _colspan = 80;  symbol = '&'; }
+if (type == "Purpose")          { _startrow = 4; _startcol = 1; _rowspan = 2; _colspan = 80;  symbol = '@'; }
+if (type == "Dialog")           { _startrow = 7; _startcol = 1; _rowspan = 7; _colspan = 31;  symbol = '^'; }
+if (type == "Input")            { _startrow = 7; _startcol = 31; _rowspan = 7; _colspan = 31; symbol = '#'; }
+if (type == "Utility")          { _startrow = 7; _startcol = 61; _rowspan = 7; _colspan = 19; symbol = '!'; }
+if (type == "Algorithm")        { _startrow = 15; _startcol = 1; _rowspan = 7; _colspan = 80; symbol = '/'; }
+*/

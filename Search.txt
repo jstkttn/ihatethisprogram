@@ -1,0 +1,105 @@
+﻿using System;
+
+namespace ihatethisprogram
+{
+    // Time code borrowed from: http://stackoverflow.com/questions/14019510/calculate-the-execution-time-of-a-method
+
+    /******************************************************************************************************************************************
+     * Class: Performs a serial or index search on the class array to evaluate efficiency of the individual searches on large amounts of data
+     *        Returns both the location and the time of each search to the user
+     *******************************************************************************************************************************************/
+    class Search : Run
+    {
+        /***************************************************************************************************
+         * Fields: int loyY     Indicates the Y position of the character if search results are true
+         *         int locX     Indicates the X position of the character if search results are true
+         *         int locPage  Indicates the page position in the class array if search results are true
+         ****************************************************************************************************/
+        private static int locY, locX, locPage;
+
+        /************************************************************************************************************************************
+         * Function: Performs either a serial or index search on the class array, based on user input. If the serial search is selected,
+         *           the symbol to find is passed to the correct if tree statement, otherwise the variable is discarded. The processes are
+         *           timed in order to evaluate efficiency
+         *           
+         * @args    string searchtype   Indicates the type of search to be perfomed (Serial or Index)
+         *          char symbol         Contains the symbol to be found if the search type is serial
+         ************************************************************************************************************************************/
+        public void result(string searchtype, char symbol = ' ')
+        {
+            var watch = System.Diagnostics.Stopwatch.StartNew();
+            if (searchtype == "serial")
+            {
+                if (serialsearch(symbol))
+                {
+                    watch.Stop();
+                    var elapsedMs = watch.ElapsedMilliseconds;
+                    Console.WriteLine("Symbol found on page " + locPage + " at coordinates [" + locY + ", " + locX + "]");
+                    Console.WriteLine("Time elapsed: " + elapsedMs + " milliseconds");
+                }
+            }
+            if (searchtype == "index")
+            {
+                if (indexsearch())
+                {
+                    watch.Stop();
+                    var elapsedMs = watch.ElapsedMilliseconds;
+                    Console.WriteLine("Found unempty page at page " + locPage);
+                    Console.WriteLine("Time elapsed: " + elapsedMs + " milliseconds");
+                }
+            }
+        }
+
+        /*************************************************************************************************
+         * Function: Performs a serial search on a class array trying to find a provided character symbol
+         * 
+         * @args    char symbol     Contains the character symbol to find
+         * 
+         * @returns bool check      Indicates whether the search found the character or not
+         **************************************************************************************************/
+        public bool serialsearch(char symbol)
+        {
+            bool check = false; //Search results are initially false
+            for (int i = 0; i < book.Length; i++) // From the beginning of the class array to the end
+            {
+                for (int j = 0; j < book[i].reflectorArray.GetUpperBound(0); j++) //From the beginning of the Reflector to the max columns
+                {
+                    for (int q = 0; q < book[i].reflectorArray.GetUpperBound(1); q++) // From the beginning of the Reflector to the max rows
+                    {
+                        if (book[i].reflectorArray[j, q] == symbol) // If the symbol is found
+                        {
+                            check = true;   //Search results become true
+                            locY = j; locX = q; locPage = i; // Record the location
+                        }
+                    }
+                }
+            }
+            return check;
+        }
+
+        /****************************************************************************************************
+         * Function: Performs an indexed search on a class array trying to find a provided character symbol
+         * 
+         * @returns bool check      Indicates whether the search found the character or not
+         *****************************************************************************************************/
+        public bool indexsearch()
+        {
+            bool check = false;//Search results are initially false
+            for (int i = 0; i < book.Length; i++)// From the beginning of the class array to the end
+            {
+                for (int j = 0; j < book[i].reflectorArray.GetUpperBound(0); j++)//From the beginning of the Reflector to the max columns
+                {
+                    for (int q = 0; q < book[i].reflectorArray.GetUpperBound(1); q++) // From the beginning of the Reflector to the max rows
+                    {
+                        if (book[i].reflectorArray[0, 0] == '1') // If the symbol is found
+                        {
+                            locPage = i; //Record the page location in the class array
+                            check = true; //Search results become true
+                        }
+                    }
+                }
+            }
+            return check;
+        }
+    }
+}

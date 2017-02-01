@@ -1,0 +1,65 @@
+﻿/*
+ * using System.IO;
+
+*namespace ihatethisprogram
+*{
+*    class Reader : Run
+*    {
+*        *
+*         * (NOT YET IMPLEMENTED)
+*         * Function: Reads from a text file and feeds the input character by character
+*         *  to a table then copied to multimensional array at a predefined position and
+*         *  increments the page as the table dimensions are filled.
+*         *  
+*         *  ArrayList?
+*         *
+*        public void read()
+*        {
+*            string path = "C:\\Users\\Admin\\Desktop\\GreenEggs&Ham.txt";
+*            char[] c = null;
+*
+*            using (StreamReader sr = new StreamReader(path))
+*            {
+*                Table t = new Table("Utility"); int pg = 0; int grow = 0;
+*
+*                while (sr.Peek() >= 0)
+*                {
+*                    c = new char[19];
+*                    sr.Read(c, 0, c.Length);
+*                    if (grow <= t.table.GetUpperBound(0))
+*                    {
+*                        copytotable(c, t.table, grow);
+*                    }
+*                    else
+*                    {
+*                        grow = 0;
+*                        t.insertTable(book[pg].reflectorArray);
+*                        insert(book[pg].reflectorArray);
+*                        t = new Table("Utility");
+*                        copytotable(c, t.table, grow);
+*                        pg++;
+*                    }
+*                }
+*            }
+*        }
+*        *
+*        private void tabletopage(char[] buffer)
+*        {
+*            Table t = new Table("Utility");
+*            for (int i = 0; i < t.table.GetUpperBound(0); i++)
+*            {
+*                copytotable(buffer, t.table, i);
+*            } 
+*        }*
+*
+*        private char[,] copytotable(char[] buffer, char[,] gtable, int grow)
+*        {
+*            for (int i = 0; i < buffer.Length; i++)
+*            {
+*                gtable[grow, i] = buffer[i];
+*            }
+*            return gtable;
+*        }
+*    }
+*}
+*/

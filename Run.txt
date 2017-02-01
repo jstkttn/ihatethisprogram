@@ -1,0 +1,77 @@
+﻿using System;
+
+namespace ihatethisprogram
+{
+    /************************************************************
+     * Class: Contains functions to create tables, insert them
+     * into a reflector or display it, and create/populate/edit
+     * a class instance array
+     ************************************************************/
+    class Run : Reflector
+    {
+        public static Reflector[] book = new Reflector[100];
+
+        /***********************************************************
+         * Function: Populate a class instance array with instances
+         *  from Reflector
+         ***********************************************************/
+        public static void insertpages()
+        {
+            for (int i = 0; i < 100; i++)
+            {
+                book[i] = new Reflector();
+                book[i].initref();
+            }
+        }
+
+        /************************************************************
+         * Function: Display a multidimensional array to the screen 
+         * and set the cursor to a specific position. 
+         ************************************************************/
+        public static void display(int page)
+        {
+            Console.Clear();
+            for (int i = 0; i < row; i++)
+            {
+                for (int j = 0; j < col; j++)
+                {
+                    Console.Write(book[page].reflectorArray[i, j]);
+                }
+            }
+            Console.SetCursorPosition(book[page].reflectorArray.GetUpperBound(1) / 2, 
+                book[page].reflectorArray.GetUpperBound(0) - 1);
+            Console.ReadKey();
+        }
+
+        /************************************************************
+         * Function: Fill an array with tables containing characters 
+         * at certain screen positions. If any remaining characters 
+         * are dashes, replace them with empty space. 
+         ************************************************************/
+        public static void tableinsert()
+        {
+            insert("Documentation", book[80].reflectorArray);
+            insert("Title", book[80].reflectorArray);
+            insert("Purpose", book[80].reflectorArray);
+            insert("Dialog", book[80].reflectorArray);
+            insert("Input", book[80].reflectorArray);
+            insert("Utility", book[80].reflectorArray);
+            insert("Algorithm", book[80].reflectorArray);
+            book[80].emptySpaceFill();
+        }
+
+        /****************************************************************
+         * Function: Insert a table into a reflector
+         * 
+         * @args char symbol            character symbol to insert 
+         *       string tablename       Name of the table to create
+         *                              corresponds to a class instance 
+         *       char[,] pg             Instance of a reflector 
+         *****************************************************************/
+        public static void insert(string tablename, char[,] pg)
+        {
+            Table t = new Table(tablename);
+            t.insertTable(pg);
+        }
+    }
+}

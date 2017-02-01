@@ -1,0 +1,32 @@
+using System;
+
+namespace ihatethisprogram
+{
+    class Program : Run
+    {
+        static void Main(string[] args)
+        {
+            // Create a reflector array, and populate it with predefined Reflector instances
+            insertpages();
+
+            /*****************************
+            * Performs the searches
+            * Search s = new Search();
+            * s.result("serial", '&');
+            * s.result("index");
+            ******************************/
+
+            /*
+            * (NOT YET IMPLEMENTED)
+            * Insert the poem "Green Eggs & into the class array at a certain position in
+            * each Reflector instance
+            * Reader read = new Reader();
+            * read.read();
+            */
+
+            display(0); // Display an indicated class array page
+            Console.ReadKey(); // Pause and wait for user to press a key
+
+        }
+    }
+}
